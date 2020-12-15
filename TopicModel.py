@@ -53,7 +53,7 @@ if uploaded_file:
         df = df.sample(n = 10000)
     st.write(df['texts'])
     if st.button('Download input as a text file'):
-        tmp_download_link = download_link(s, 'YOUR_INPUT.txt', 'Click here to download your text!')
+        tmp_download_link = download_link(df, 'YOUR_INPUT.txt', 'Click here to download your text!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
     stopset = stopwords.words('english')+['covid','vaccin','http','https','say','thi','coronaviru']
     corpus=[]
