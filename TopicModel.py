@@ -16,6 +16,7 @@ import string
 import re
 import glob
 import nltk
+import base64
 nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
