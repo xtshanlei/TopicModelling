@@ -1,2 +1,3 @@
 Matplotlib == 3.3.3
 Nltk == 3.5
+Wordcloud = 1.8.1
