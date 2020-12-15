@@ -40,7 +40,7 @@ def download_link(object_to_download, download_filename):
 
     # some strings <-> bytes conversions necessary here
     b64 = base64.b64encode(object_to_download.encode()).decode()
-    href = 'data:file/csv;base64,{}'.format(b64)
+    href = href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
     return href
     #f'<a href="data:file/txt;base64,{b64}" download="{download_filename}"></a>'
 st.title("Automatic Topic Modelling")
