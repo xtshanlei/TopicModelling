@@ -27,6 +27,9 @@ st.title("Automatic Topic Modelling")
 st.write("If ValueError appears, just refresh the page")
 uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
 email_address = st.text_input('Please type your email address here. We will send the result via email')
+if st.button('Download Dataframe as CSV'):
+    tmp_download_link = download_link(uploaded_file, 'file.csv', 'Click here to download your data!')
+    st.markdown(tmp_download_link, unsafe_allow_html=True)
 if email_address:
     if uploaded_file:
         df = pd.read_csv(uploaded_file, encoding = 'ISO-8859-1', engine = 'python')
