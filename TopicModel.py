@@ -160,7 +160,7 @@ if email_address:
             return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
         send_mail('yulei.li@durham.ac.uk', email_address, 'Hierarchical topics results','Please reference us:', files=['results.csv'],
-                      server="smtp-relay.sendinblue.com", port=587, username='xtliyulei@gmail.com', password='HWMwRpACxIaFdbKS',
+                      server="smtp-relay.sendinblue.com", port=587, username=USERNAME, password=PASSWORD,
                       use_tls=True)
         # Examples
 
