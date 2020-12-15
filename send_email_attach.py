@@ -47,6 +47,3 @@ def send_mail(send_from, send_to, subject, message, files=[],
     smtp.login(username, password)
     smtp.sendmail(send_from, send_to, msg.as_string())
     smtp.quit()
-send_mail('yulei.li@durham.ac.uk', 'xtliyulei@gmail.com', 'python email test','hello there', files=['results.csv'],
-              server="smtp-relay.sendinblue.com", port=587, username='xtliyulei@gmail.com', password='HWMwRpACxIaFdbKS',
-              use_tls=True)
