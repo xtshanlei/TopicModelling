@@ -19,11 +19,13 @@ import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
+from send_email_attach import send_email
 
 
 st.title("Automatic Topic Modelling")
 st.write("If ValueError appears, just refresh the page")
 uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
+email_address = st.text_input('Please type your email address here. We will send the result via email')
 if uploaded_file:
     df = pd.read_csv(uploaded_file, encoding = 'ISO-8859-1', engine = 'python')
     if len(df)>50000:
@@ -156,7 +158,9 @@ if uploaded_file:
 
         return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
-
+    send_mail('yulei.li@durham.ac.uk', email_address, 'Hierarchical topics results','Please reference us:', files=['results.csv'],
+                  server="smtp-relay.sendinblue.com", port=587, username='xtliyulei@gmail.com', password='HWMwRpACxIaFdbKS',
+                  use_tls=True)
     # Examples
 
     if st.button('Download Dataframe as CSV'):
