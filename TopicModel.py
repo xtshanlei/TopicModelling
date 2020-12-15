@@ -42,8 +42,7 @@ def download_link(object_to_download, download_filename):
     # some strings <-> bytes conversions necessary here
     b64 = base64.b64encode(object_to_download.encode()).decode()
     href = href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
-    return href
-    #f'<a href="data:file/txt;base64,{b64}" download="{download_filename}"></a>'
+    return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}"></a>'
 st.title("Automatic Topic Modelling")
 st.write("If ValueError appears, just refresh the page")
 uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
@@ -53,7 +52,9 @@ if uploaded_file:
     if len(df)>10000:
         df = df.sample(n = 10000)
     st.write(df['texts'])
-    wget.download('file:results.csv')
+    if st.button('Download input as a text file'):
+        tmp_download_link = download_link(s, 'YOUR_INPUT.txt', 'Click here to download your text!')
+        st.markdown(tmp_download_link, unsafe_allow_html=True)
     stopset = stopwords.words('english')+['covid','vaccin','http','https','say','thi','coronaviru']
     corpus=[]
     vocab=set()
