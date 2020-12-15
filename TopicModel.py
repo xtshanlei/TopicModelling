@@ -22,7 +22,7 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
 from send_email_attach import send_mail
-def download_link(object_to_download, download_filename, download_link_text):
+def download_link(object_to_download, download_filename):
     """
     Generates a link to download the given object_to_download.
 
