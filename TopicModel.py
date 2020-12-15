@@ -20,6 +20,7 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
 from send_email_attach import send_mail
+import config
 
 
 st.title("Automatic Topic Modelling")
@@ -160,7 +161,7 @@ if email_address:
             return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
         send_mail('yulei.li@durham.ac.uk', email_address, 'Hierarchical topics results','Please reference us:', files=['results.csv'],
-                      server="smtp-relay.sendinblue.com", port=587, username=USERNAME, password=PASSWORD,
+                      server="smtp-relay.sendinblue.com", port=587, username=config.USERNAME, password=config.PASSWORD,
                       use_tls=True)
         # Examples
 
