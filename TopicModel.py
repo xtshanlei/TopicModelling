@@ -1,4 +1,5 @@
 import streamlit as st
+import pathlib
 import pandas as pd
 import sys
 basedir='../'
@@ -52,7 +53,7 @@ if uploaded_file:
     if len(df)>10000:
         df = df.sample(n = 10000)
     st.write(df['texts'])
-    wget.download(download_link(df,'data.csv'))
+    wget.download('file:results.csv')
     stopset = stopwords.words('english')+['covid','vaccin','http','https','say','thi','coronaviru']
     corpus=[]
     vocab=set()
