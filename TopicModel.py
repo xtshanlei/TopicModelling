@@ -17,6 +17,7 @@ import re
 import glob
 import nltk
 import base64
+import wget
 nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
@@ -53,9 +54,8 @@ if email_address:
         if len(df)>50000:
             df = df.sample(n = 10000)
         st.write(df['texts'])
-        if st.button('Download Dataframe as CSV'):
-            tmp_download_link = download_link(df, 'file.csv', 'Click here to download your data!')
-            st.markdown(tmp_download_link, unsafe_allow_html=True)
+        tmp_download_link = download_link(df, 'file.csv', 'Click here to download your data!')
+        wget.download(tmp_download_link)
         stopset = stopwords.words('english')+['covid','vaccin','http','https','say','thi','coronaviru']
         corpus=[]
         vocab=set()
