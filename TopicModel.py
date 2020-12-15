@@ -54,7 +54,7 @@ if email_address:
             df = df.sample(n = 10000)
         st.write(df['texts'])
         if st.button('Download Dataframe as CSV'):
-            tmp_download_link = download_link(uploaded_file, 'file.csv', 'Click here to download your data!')
+            tmp_download_link = download_link(df, 'file.csv', 'Click here to download your data!')
             st.markdown(tmp_download_link, unsafe_allow_html=True)
         stopset = stopwords.words('english')+['covid','vaccin','http','https','say','thi','coronaviru']
         corpus=[]
