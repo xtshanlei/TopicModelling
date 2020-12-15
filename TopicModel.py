@@ -20,7 +20,27 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
 from send_email_attach import send_mail
+@st.cache
+def download_link(object_to_download, download_filename, download_link_text):
+    """
+    Generates a link to download the given object_to_download.
 
+    object_to_download (str, pd.DataFrame):  The object to be downloaded.
+    download_filename (str): filename and extension of file. e.g. mydata.csv, some_txt_output.txt
+    download_link_text (str): Text to display for download link.
+
+    Examples:
+    download_link(YOUR_DF, 'YOUR_DF.csv', 'Click here to download data!')
+    download_link(YOUR_STRING, 'YOUR_STRING.txt', 'Click here to download your text!')
+
+    """
+    if isinstance(object_to_download,pd.DataFrame):
+        object_to_download = object_to_download.to_csv(index=False)
+
+    # some strings <-> bytes conversions necessary here
+    b64 = base64.b64encode(object_to_download.encode()).decode()
+
+    return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
 st.title("Automatic Topic Modelling")
 st.write("If ValueError appears, just refresh the page")
@@ -141,26 +161,7 @@ if email_address:
                            'grandparents':hlda.root_node.get_top_words(n_words,with_weights)})
         results_df.to_csv('results.csv')
 
-        def download_link(object_to_download, download_filename, download_link_text):
-            """
-            Generates a link to download the given object_to_download.
 
-            object_to_download (str, pd.DataFrame):  The object to be downloaded.
-            download_filename (str): filename and extension of file. e.g. mydata.csv, some_txt_output.txt
-            download_link_text (str): Text to display for download link.
-
-            Examples:
-            download_link(YOUR_DF, 'YOUR_DF.csv', 'Click here to download data!')
-            download_link(YOUR_STRING, 'YOUR_STRING.txt', 'Click here to download your text!')
-
-            """
-            if isinstance(object_to_download,pd.DataFrame):
-                object_to_download = object_to_download.to_csv(index=False)
-
-            # some strings <-> bytes conversions necessary here
-            b64 = base64.b64encode(object_to_download.encode()).decode()
-
-            return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 
         send_mail('yulei.li@durham.ac.uk', email_address, 'Hierarchical topics results','Please reference us:', files=['results.csv'],
                       server="smtp-relay.sendinblue.com", port=587, username=config.USERNAME, password=config.PASSWORD,
