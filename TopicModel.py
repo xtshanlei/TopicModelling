@@ -20,7 +20,6 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
 from send_email_attach import send_mail
-import config
 
 
 st.title("Automatic Topic Modelling")
