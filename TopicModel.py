@@ -23,7 +23,7 @@ nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
 from send_email_attach import send_mail
-def download_link(object_to_download, download_filename):
+def download_link(object_to_download, download_filename, download_link_text):
     """
     Generates a link to download the given object_to_download.
 
@@ -42,7 +42,7 @@ def download_link(object_to_download, download_filename):
     # some strings <-> bytes conversions necessary here
     b64 = base64.b64encode(object_to_download.encode()).decode()
     href = href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
-    return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}"></a>'
+    return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 st.title("Automatic Topic Modelling")
 st.write("If ValueError appears, just refresh the page")
 uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
