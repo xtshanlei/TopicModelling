@@ -98,7 +98,7 @@ if uploaded_file:
     vocab_index = {}
     for i, w in enumerate(vocab):
         vocab_index[w] = i
-    st.header("Wordcloud")
+    st.subheader("Wordcloud")
     wordcloud = WordCloud(background_color='white',stopwords = stopset).generate(' '.join(filtered))
     plt.figure(figsize=(12, 12))
     plt.imshow(wordcloud, interpolation="bilinear")
@@ -114,15 +114,15 @@ if uploaded_file:
         new_corpus.append(new_doc)
 
     st.subheader("Parameters for hLDA:")
-    n_samples = st.slider('No of iterations for the sampler', 10,200,100)    # no of iterations for the sampler
-    alpha = st.slider('Smoothing over level distributions',1.0, 50.0,10.0)         # smoothing over level distributions
-    gamma = st.slider('CRP smoothing parameter; number of imaginary customers at next, as yet unused table', 1.0, 10.0, 1.0)           # CRP smoothing parameter; number of imaginary customers at next, as yet unused table
-    eta = st.slider('Smoothing over topic-word distributions', 0.1, 5.0, 0.1)             # smoothing over topic-word distributions
-    num_levels = st.slider('No. of levels in the tree', 2, 5, 3)        # the number of levels in the tree
+    n_samples = st.slider('No of iterations for the sampler(Default:100)', 10,200,100)    # no of iterations for the sampler
+    alpha = st.slider('Smoothing over level distributions(Default:10.0)',1.0, 50.0,10.0)         # smoothing over level distributions
+    gamma = st.slider('CRP smoothing parameter; number of imaginary customers at next, as yet unused table(Default(1.0))', 1.0, 10.0, 1.0)           # CRP smoothing parameter; number of imaginary customers at next, as yet unused table
+    eta = st.slider('Smoothing over topic-word distributions(Default:0.1)', 0.1, 5.0, 0.1)             # smoothing over topic-word distributions
+    num_levels = st.slider('No. of levels in the tree(Default:3)', 2, 5, 3)        # the number of levels in the tree
     display_topics = 5   # the number of iterations between printing a brief summary of the topics so far
     n_words = 5           # the number of most probable words to print for each topic after model estimation
     with_weights = False  # whether to print the words with the weights
-    st.info('The process may take quite a long time, please be patient...')
+    st.info("If it's a large data,The process may take quite a long time, please be patient...")
     hlda = HierarchicalLDA(new_corpus, vocab, alpha=alpha, gamma=gamma, eta=eta, num_levels=num_levels)
     hlda.estimate(n_samples, display_topics=display_topics, n_words=n_words, with_weights=with_weights)
     st.success('Well done! You did it!')
@@ -159,6 +159,8 @@ if uploaded_file:
                        'total_words':total_words,
                        'grandparents':hlda.root_node.get_top_words(n_words,with_weights)})
     results_df.to_csv('results.csv')
+    st.subheader("Results:")
+    st.write('You can download the results by clicking the button below!')
     st.write(results_df)
     # Examples
 
