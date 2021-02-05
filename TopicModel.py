@@ -55,8 +55,9 @@ if uploaded_file:
     if st.button('Download input as a text file'):
         tmp_download_link = download_link(df, 'YOUR_INPUT.txt', 'Click here to download your text!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
-    ExStopWords = st.text_input("Any extra words to be removed? Split using ','")
-    stopset = stopwords.words('english') + ExStopWords
+    ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
+    ExStopWords_l = ExStopWords.split()
+    stopset = stopwords.words('english') + ExStopWords_l
     corpus=[]
     vocab=set()
     stemmer = PorterStemmer()
