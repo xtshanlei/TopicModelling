@@ -18,11 +18,12 @@ import re
 import glob
 import nltk
 import base64
-import wget
+#import wget
 nltk.download('stopwords')
 nltk.download('punkt')
 from tqdm import tqdm_notebook as tqdm
 from send_email_attach import send_mail
+import config
 def download_link(object_to_download, download_filename, download_link_text):
     """
     Generates a link to download the given object_to_download.
@@ -49,8 +50,9 @@ uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file, encoding = 'ISO-8859-1', engine = 'python')
-    if len(df)>10000:
-        df = df.sample(n = 10000)
+    df = df.dropna()
+    #if len(df)>10000:
+        #df = df.sample(n = 10000)
     st.write(df['texts'])
     if st.button('Download input as a text file'):
         tmp_download_link = download_link(df, 'YOUR_INPUT.txt', 'Click here to download your text!')
@@ -162,7 +164,7 @@ if uploaded_file:
 
 
 
-    send_mail('yulei.li@durham.ac.uk', email_address, 'Hierarchical topics results','Please reference us:', files=['results.csv'],
+    send_mail('yulei.li@durham.ac.uk', 'xtliyulei@gmail.com', 'Hierarchical topics results','Please reference us:', files=['results.csv'],
                   server="smtp-relay.sendinblue.com", port=587, username=config.USERNAME, password=config.PASSWORD,
                   use_tls=True)
     # Examples
