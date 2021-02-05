@@ -160,11 +160,6 @@ if uploaded_file:
                        'grandparents':hlda.root_node.get_top_words(n_words,with_weights)})
     results_df.to_csv('results.csv')
 
-
-
-    send_mail('yulei.li@durham.ac.uk', 'xtliyulei@gmail.com', 'Hierarchical topics results','Please reference us:', files=['results.csv'],
-                  server="smtp-relay.sendinblue.com", port=587, username=config.USERNAME, password=config.PASSWORD,
-                  use_tls=True)
     # Examples
 
     if st.button('Download Dataframe as CSV'):
