@@ -55,7 +55,8 @@ if uploaded_file:
     if st.button('Download input as a text file'):
         tmp_download_link = download_link(df, 'YOUR_INPUT.txt', 'Click here to download your text!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
-    stopset = stopwords.words('english')+['covid','vaccin','http','https','say','thi','coronaviru']
+    ExStopWords = st.text_input("Any extra words to be removed? Split using ','")
+    stopset = stopwords.words('english') + ExStopWords
     corpus=[]
     vocab=set()
     stemmer = PorterStemmer()
@@ -128,8 +129,6 @@ if uploaded_file:
     d = 0
     n =0
     node = hlda.document_leaves[d]
-    st.write('topic=%d level=%d (documents=%d): ' % (node.node_id, node.level, node.customers) +node.get_top_words(n_words, with_weights))
-    st.write(node.parent.node_id, node.parent, node.total_words)
 
     #hlda.print_nodes(n_words, with_weights)
 
@@ -163,5 +162,5 @@ if uploaded_file:
     # Examples
 
     if st.button('Download Dataframe as CSV'):
-        tmp_download_link = download_link(results_df, 'topics.csv', 'Click here to download your data!')
+        tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
