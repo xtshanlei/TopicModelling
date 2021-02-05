@@ -162,6 +162,6 @@ if uploaded_file:
 
         # Examples
 
-        if st.button('Download Dataframe as CSV'):
-            tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
-            st.markdown(tmp_download_link, unsafe_allow_html=True)
+    if st.button('Download Dataframe as CSV'):
+        tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
+        st.markdown(tmp_download_link, unsafe_allow_html=True)
