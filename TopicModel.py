@@ -42,7 +42,7 @@ def download_link(object_to_download, download_filename, download_link_text):
     b64 = base64.b64encode(object_to_download.encode()).decode()
     href = href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
-st.title("Automatic Topic Modelling")
+st.title("Automatic Topic Modelling v1.0")
 st.write("If ValueError appears, just refresh the page")
 uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
 
