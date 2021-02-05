@@ -159,7 +159,7 @@ if uploaded_file:
                        'total_words':total_words,
                        'grandparents':hlda.root_node.get_top_words(n_words,with_weights)})
     results_df.to_csv('results.csv')
-    st.write('results.csv')
+    st.write(results_df)
     # Examples
 
     if st.button('Download Dataframe as CSV'):
