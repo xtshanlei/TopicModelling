@@ -48,7 +48,7 @@ uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file, encoding = 'ISO-8859-1', engine = 'python')
-    df = df.dropna()
+    df = df.dropna().reset_index()
     #if len(df)>10000:
         #df = df.sample(n = 10000)
     st.write(df['texts'])
