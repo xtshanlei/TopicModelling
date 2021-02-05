@@ -115,7 +115,7 @@ if uploaded_file:
     alpha = st.slider('Smoothing over level distributions(Default:10.0)',1.0, 50.0,10.0)         # smoothing over level distributions
     gamma = st.slider('CRP smoothing parameter; number of imaginary customers at next, as yet unused table(Default:1.0)', 1.0, 10.0, 1.0)           # CRP smoothing parameter; number of imaginary customers at next, as yet unused table
     eta = st.slider('Smoothing over topic-word distributions(Default:0.1)', 0.1, 5.0, 0.1)             # smoothing over topic-word distributions
-    num_levels = st.slider('No. of levels in the tree(Default:3)', 2, 5, 3)        # the number of levels in the tree
+    num_levels = 3        # the number of levels in the tree
     display_topics = 5   # the number of iterations between printing a brief summary of the topics so far
     n_words = 5           # the number of most probable words to print for each topic after model estimation
     with_weights = False  # whether to print the words with the weights
