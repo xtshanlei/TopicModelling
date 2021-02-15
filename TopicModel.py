@@ -53,7 +53,7 @@ if uploaded_file:
     if merge_required:
         df = df['text1']+df['text2']
     else: df = df['texts'].dropna().reset_index()
-    st.write(df['texts'])
+    st.write(df)
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
     stopset = stopwords.words('english') + ExStopWords_l
