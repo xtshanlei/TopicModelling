@@ -64,7 +64,8 @@ if uploaded_file:
     corpus=[]
     vocab=set()
     stemmer = PorterStemmer()
-    comments = df['texts']
+    try: comments = df['texts']
+    except: st.write('Please make sure your column name is texts')
 
     def preprocess_text(sen):
         # Remove punctuations and numbers
