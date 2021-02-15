@@ -129,7 +129,7 @@ if uploaded_file:
     n_words = 5           # the number of most probable words to print for each topic after model estimation
     with_weights = False  # whether to print the words with the weights
     topic_model_start = st.button('Press to generate topics...')
-    results_df= pd.Dataframe()
+    results_df= pd.DataFrame()
     if topic_model_start:
         st.info("If it's a large data,The process may take quite a long time, please be patient...")
         hlda = HierarchicalLDA(new_corpus, vocab, alpha=alpha, gamma=gamma, eta=eta, num_levels=num_levels)
