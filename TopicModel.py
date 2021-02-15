@@ -51,19 +51,22 @@ if uploaded_file:
     df = pd.read_csv(uploaded_file, encoding = 'ISO-8859-1', engine = 'python')
     df = df.dropna(how='all').replace(np.nan, '',regex=True).reset_index()
     st.write(df)
-    text_column = st.selectbox('Please choose the column name of the texts:',df.columns)
     merge_required = st.checkbox('Need to merge columns?')
+
     if merge_required:
         columns_selected = st.multiselect('Which columns do you want to merge?',df.columns)
         df['texts'] = df[columns_selected].agg(' '.join, axis=1)
         st.write(df['texts'])
+        comments = df['texts']
+    else:
+        text_column = st.selectbox('Please choose the column name of the texts:',df.columns)
+        comments = df[text_column]
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
     stopset = stopwords.words('english') + ExStopWords_l
     corpus=[]
     vocab=set()
     stemmer = PorterStemmer()
-    comments = df[text_column]
     all_filtered_words = []
 
     def preprocess_text(sen):
