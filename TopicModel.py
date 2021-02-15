@@ -54,7 +54,9 @@ if uploaded_file:
     merge_required = st.checkbox('Need to merge data?')
     if merge_required:
         df['texts'] = df['text1']+df['text2']
-    else: df = df['texts'].dropna().reset_index()
+    else:
+        try: df = df['texts'].dropna().reset_index()
+        except: st.write('Please make sure your column name is texts')
     st.write(df)
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
