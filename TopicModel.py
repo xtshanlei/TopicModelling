@@ -56,8 +56,7 @@ if uploaded_file:
     if merge_required:
         columns_selected = st.multiselect('Which columns do you want to merge?',df.columns)
         df['texts'] = df[columns_selected].agg(' '.join, axis=1)
-
-    st.write(df[text_column])
+        st.write(df[texts])
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
     stopset = stopwords.words('english') + ExStopWords_l
