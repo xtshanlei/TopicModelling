@@ -49,6 +49,7 @@ uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
 if uploaded_file:
     df = pd.read_csv(uploaded_file, encoding = 'ISO-8859-1', engine = 'python')
     df = df.dropna(how='all').reset_index()
+    st.write(df)
     merge_required = st.checkbox('Need to merge data?')
     if merge_required:
         df = df['text1']+df['text2']
