@@ -48,9 +48,11 @@ uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
 
 if uploaded_file:
     df = pd.read_csv(uploaded_file, encoding = 'ISO-8859-1', engine = 'python')
-    df = df['texts'].dropna().reset_index()
-    #if len(df)>10000:
-        #df = df.sample(n = 10000)
+    df = df.dropna(how='all').reset_index()
+    merge_required = st.checkbox('Need to merge data?')
+    if merge_required:
+        df = df['text1']+df['text2']
+    else: df = df['texts'].dropna().reset_index()
     st.write(df['texts'])
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
