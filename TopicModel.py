@@ -66,7 +66,7 @@ if uploaded_file:
     corpus=[]
     vocab=set()
     stemmer = PorterStemmer()
-    comments = df['texts']
+    comments = df[text_column]
     all_filtered_words = []
 
     def preprocess_text(sen):
