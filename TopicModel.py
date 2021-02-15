@@ -129,6 +129,7 @@ if uploaded_file:
     n_words = 5           # the number of most probable words to print for each topic after model estimation
     with_weights = False  # whether to print the words with the weights
     topic_model_start = st.button('Press to generate topics...')
+    results_df= 0
     if topic_model_start:
         st.info("If it's a large data,The process may take quite a long time, please be patient...")
         hlda = HierarchicalLDA(new_corpus, vocab, alpha=alpha, gamma=gamma, eta=eta, num_levels=num_levels)
@@ -172,6 +173,6 @@ if uploaded_file:
         st.write(results_df)
         # Examples
 
-    if results_df:
+    if results_df!=0:
         tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
