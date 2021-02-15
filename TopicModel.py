@@ -51,11 +51,13 @@ if uploaded_file:
     df = pd.read_csv(uploaded_file, encoding = 'ISO-8859-1', engine = 'python')
     df = df.dropna(how='all').replace(np.nan, '',regex=True).reset_index()
     st.write(df)
-    merge_required = st.checkbox('Need to merge data?')
-    if merge_required:
-        df['texts'] = df['text1']+df['text2']
-    else:
-        df = df['texts'].dropna().reset_index()
+    try: df = df['texts']
+    except:
+        merge_required = st.checkbox('Need to merge columns?')
+        if merge_required:
+            columns_selected = st.multiselect('Which columns do you want to merge?',df.columns)
+            df['texts'] = df[[columns_selected]]
+
     st.write(df)
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
