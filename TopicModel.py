@@ -55,8 +55,7 @@ if uploaded_file:
     if merge_required:
         df['texts'] = df['text1']+df['text2']
     else:
-        try: df = df['texts'].dropna().reset_index()
-        except: st.write('Please make sure your column name is texts')
+        df = df['texts'].dropna().reset_index()
     st.write(df)
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
@@ -64,8 +63,7 @@ if uploaded_file:
     corpus=[]
     vocab=set()
     stemmer = PorterStemmer()
-    try: comments = df['texts']
-    except: st.write('Please make sure your column name is texts')
+    comments = df['texts']
 
     def preprocess_text(sen):
         # Remove punctuations and numbers
