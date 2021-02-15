@@ -97,6 +97,7 @@ if uploaded_file:
       if filtered in corpus:
         continue
       corpus.append(filtered)
+    st.write(corpus)
     vocab = sorted(list(vocab))
     vocab_index = {}
     for i, w in enumerate(vocab):
