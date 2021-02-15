@@ -52,7 +52,6 @@ if uploaded_file:
     df = df.dropna(how='all').replace(np.nan, '',regex=True).reset_index()
     st.write(df)
     text_column = st.selectbox('Please choose the column name of the texts:',df.columns)
-    df = df[text_column]
     merge_required = st.checkbox('Need to merge columns?')
     if merge_required:
         columns_selected = st.multiselect('Which columns do you want to merge?',df.columns)
