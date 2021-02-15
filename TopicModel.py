@@ -103,7 +103,7 @@ if uploaded_file:
     for i, w in enumerate(vocab):
         vocab_index[w] = i
     st.subheader("Wordcloud")
-    wordcloud = WordCloud(background_color='white',stopwords = stopset).generate(' '.join(filtered))
+    wordcloud = WordCloud(background_color='white',stopwords = stopset).generate(' '.join(corpus))
     plt.figure(figsize=(12, 12))
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
