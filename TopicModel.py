@@ -66,6 +66,7 @@ if uploaded_file:
     vocab=set()
     stemmer = PorterStemmer()
     comments = df['texts']
+    all_filtered_words = []
 
     def preprocess_text(sen):
         # Remove punctuations and numbers
@@ -93,11 +94,12 @@ if uploaded_file:
           if w in stopset:            # remove stop words
               continue
           filtered.append(w)
+          all_filtered_words.append(w)
       vocab.update(filtered)
       if filtered in corpus:
         continue
       corpus.append(filtered)
-    st.write(corpus)
+    st.write(all_filtered_words)
     vocab = sorted(list(vocab))
     vocab_index = {}
     for i, w in enumerate(vocab):
