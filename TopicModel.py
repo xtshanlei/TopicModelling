@@ -99,13 +99,13 @@ if uploaded_file:
       if filtered in corpus:
         continue
       corpus.append(filtered)
-    st.write(all_filtered_words)
     vocab = sorted(list(vocab))
     vocab_index = {}
     for i, w in enumerate(vocab):
         vocab_index[w] = i
     st.subheader("Wordcloud")
-    wordcloud = WordCloud(background_color='white',stopwords = stopset, max_words =50).generate(' '.join(all_filtered_words))
+    no_of_words = st.slider('How many words do you want?', 1, 50, 20)
+    wordcloud = WordCloud(background_color='white',stopwords = stopset, max_words =no_of_words).generate(' '.join(all_filtered_words))
     plt.figure(figsize=(12, 12))
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
