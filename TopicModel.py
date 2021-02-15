@@ -128,48 +128,50 @@ if uploaded_file:
     display_topics = 5   # the number of iterations between printing a brief summary of the topics so far
     n_words = 5           # the number of most probable words to print for each topic after model estimation
     with_weights = False  # whether to print the words with the weights
-    st.info("If it's a large data,The process may take quite a long time, please be patient...")
-    hlda = HierarchicalLDA(new_corpus, vocab, alpha=alpha, gamma=gamma, eta=eta, num_levels=num_levels)
-    hlda.estimate(n_samples, display_topics=display_topics, n_words=n_words, with_weights=with_weights)
-    st.success('Well done! You did it!')
-    st.balloons()
-    d = 0
-    n =0
-    node = hlda.document_leaves[d]
+    topic_model_start = st.button('Press to generate topics...')
+    if topic_model_start:
+        st.info("If it's a large data,The process may take quite a long time, please be patient...")
+        hlda = HierarchicalLDA(new_corpus, vocab, alpha=alpha, gamma=gamma, eta=eta, num_levels=num_levels)
+        hlda.estimate(n_samples, display_topics=display_topics, n_words=n_words, with_weights=with_weights)
+        st.success('Well done! You did it!')
+        st.balloons()
+        d = 0
+        n =0
+        node = hlda.document_leaves[d]
 
-    #hlda.print_nodes(n_words, with_weights)
+        #hlda.print_nodes(n_words, with_weights)
 
-    def topic_df(model,node, indent, n_words, with_weights):
-            out = '   ' * indent
-            out += 'topic=%d level=%d (documents=%d): ' % (node.node_id, node.level, node.customers)
-            out += node.get_top_words(n_words, with_weights)
-            print(out, node.total_words)
-            for child in node.children:
-                topic_df(model,child, indent+1, n_words, with_weights)
-    def topic_level3(model,node,n_words,with_weights):
-      topic_words = []
-      parent_words = []
-      total_words = []
-      for child in node.children:
-        for i in child.children:
-          topic_words.append(i.get_top_words(n_words, with_weights))
-          parent_words.append(i.parent.get_top_words(n_words, with_weights))
-          total_words.append(i.total_words)
-      return topic_words, parent_words, total_words
-          #i.total_words, i.get_top_words(n_words, with_weights), i.parent.get_top_words(n_words, with_weights)
+        def topic_df(model,node, indent, n_words, with_weights):
+                out = '   ' * indent
+                out += 'topic=%d level=%d (documents=%d): ' % (node.node_id, node.level, node.customers)
+                out += node.get_top_words(n_words, with_weights)
+                print(out, node.total_words)
+                for child in node.children:
+                    topic_df(model,child, indent+1, n_words, with_weights)
+        def topic_level3(model,node,n_words,with_weights):
+          topic_words = []
+          parent_words = []
+          total_words = []
+          for child in node.children:
+            for i in child.children:
+              topic_words.append(i.get_top_words(n_words, with_weights))
+              parent_words.append(i.parent.get_top_words(n_words, with_weights))
+              total_words.append(i.total_words)
+          return topic_words, parent_words, total_words
+              #i.total_words, i.get_top_words(n_words, with_weights), i.parent.get_top_words(n_words, with_weights)
 
-    topic_words, parent_words, total_words = topic_level3(hlda,hlda.root_node,n_words,with_weights)
+        topic_words, parent_words, total_words = topic_level3(hlda,hlda.root_node,n_words,with_weights)
 
-    results_df = pd.DataFrame({'topic_words':topic_words,
-                       'parent_words':parent_words,
-                       'total_words':total_words,
-                       'grandparents':hlda.root_node.get_top_words(n_words,with_weights)})
-    results_df.to_csv('results.csv')
-    st.subheader("Results:")
-    st.write('You can download the results by clicking the button below!')
-    st.write(results_df)
-    # Examples
+        results_df = pd.DataFrame({'topic_words':topic_words,
+                           'parent_words':parent_words,
+                           'total_words':total_words,
+                           'grandparents':hlda.root_node.get_top_words(n_words,with_weights)})
+        results_df.to_csv('results.csv')
+        st.subheader("Results:")
+        st.write('You can download the results by clicking the button below!')
+        st.write(results_df)
+        # Examples
 
-    if st.button('Download Dataframe as CSV'):
-        tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
-        st.markdown(tmp_download_link, unsafe_allow_html=True)
+        if st.button('Download Dataframe as CSV'):
+            tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
+            st.markdown(tmp_download_link, unsafe_allow_html=True)
