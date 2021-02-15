@@ -98,12 +98,11 @@ if uploaded_file:
         continue
       corpus.append(filtered)
     vocab = sorted(list(vocab))
-    st.write(vocab)
     vocab_index = {}
     for i, w in enumerate(vocab):
         vocab_index[w] = i
     st.subheader("Wordcloud")
-    wordcloud = WordCloud(background_color='white',stopwords = stopset).generate(' '.join(corpus))
+    wordcloud = WordCloud(background_color='white',stopwords = stopset).generate(' '.join(comments))
     plt.figure(figsize=(12, 12))
     plt.imshow(wordcloud, interpolation="bilinear")
     plt.axis("off")
