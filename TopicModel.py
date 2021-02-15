@@ -61,7 +61,7 @@ if uploaded_file:
     else:
         text_column = st.selectbox('Please choose the column name of the texts:',df.columns)
         try: comments = df[text_column]
-        except: break
+    except: break
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
     stopset = stopwords.words('english') + ExStopWords_l
