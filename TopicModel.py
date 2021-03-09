@@ -19,6 +19,8 @@ import re
 import glob
 import nltk
 import base64
+import gensim.corpora as corpora
+from gensim.models import CoherenceModel
 #import wget
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -180,24 +182,50 @@ if uploaded_file:
             tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
             st.markdown(tmp_download_link, unsafe_allow_html=True)
     elif model_type == 'LDA':
-        def remove_stopwords(texts):
-            return [[word for word in simple_preprocess(str(doc)) if word not in set(stopwords.words('english'))] for doc in texts]
-        def remove_meaningless(words_list,meaningless_words):
-            return [[word for word in words if word not in meaningless_words] for words in words_list]
+        def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
+            """
+            Compute c_v coherence for various number of topics
 
-        def make_bigrams(texts):
-            return [bigram_mod[doc] for doc in texts]
+            Parameters:
+            ----------
+            dictionary : Gensim dictionary
+            corpus : Gensim corpus
+            texts : List of input texts
+            limit : Max num of topics
 
-        def make_trigrams(texts):
-            return [trigram_mod[bigram_mod[doc]] for doc in texts]
+            Returns:
+            -------
+            model_list : List of LDA topic models
+            coherence_values : Coherence values corresponding to the LDA model with respective number of topics
+            """
+            coherence_values = []
+            model_list = []
+            for num_topics in range(start, limit, step):
+                model = gensim.models.LdaMulticore(corpus=corpus,
+                                                   num_topics=num_topics,
+                                                   id2word=id2word)
+                model_list.append(model)
+                coherencemodel = CoherenceModel(model=model,
+                                                texts=texts,
+                                                dictionary=dictionary,
+                                                coherence='c_v')
+                coherence_values.append(coherencemodel.get_coherence())
 
-        def lemmatization(texts, allowed_postags=['NN', 'JJ', 'VB', 'RB']):
-            texts_out = []
-            for sent in texts:
-                tag  = nltk.pos_tag(sent)
-                texts_out.append([tag_[0] for tag_ in tag if tag_[1] in allowed_postags])
-            return texts_out
-        data_words_nostops = remove_stopwords(all_filtered_words)
-        st.write(data_words_nostops)
+            return model_list, coherence_values
+        limit=50; start=2; step=6;
+        model_list, coherence_values = compute_coherence_values(dictionary=id2word,
+                                                                corpus=corpus,
+                                                                texts=data_lemmatized,
+                                                                start = start,
+                                                                limit= limit,
+                                                                step=step)
+        id2word = corpora.Dictionary(all_filtered_words)
+
+        x = range(start, limit, step)
+        plt.plot(x, coherence_values)
+        plt.xlabel("Num Topics")
+        plt.ylabel("Coherence score")
+        plt.legend(("coherence_values"), loc='best')
+        st.pyplot(plt)
     else:
         st.write('Please choose the topic model above!')
