@@ -213,13 +213,14 @@ if uploaded_file:
 
             return model_list, coherence_values
         limit=50; start=2; step=6;
+        id2word = corpora.Dictionary(all_filtered_words)
         model_list, coherence_values = compute_coherence_values(dictionary=id2word,
                                                                 corpus=corpus,
                                                                 texts=data_lemmatized,
                                                                 start = start,
                                                                 limit= limit,
                                                                 step=step)
-        id2word = corpora.Dictionary(all_filtered_words)
+
 
         x = range(start, limit, step)
         plt.plot(x, coherence_values)
