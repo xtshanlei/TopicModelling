@@ -119,6 +119,7 @@ if uploaded_file:
             word_idx = vocab_index[word]
             new_doc.append(word_idx)
         new_corpus.append(new_doc)
+    st.subheader('Topic Modelling')
     model_type = st.radio("Please choose the topic model", ('LDA', 'hLDA'))
     if model_type == 'hLDA':
         st.subheader("Parameters for hLDA:")
@@ -179,6 +180,24 @@ if uploaded_file:
             tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
             st.markdown(tmp_download_link, unsafe_allow_html=True)
     elif model_type == 'LDA':
-        st.write('LDA')
+        def remove_stopwords(texts):
+            return [[word for word in simple_preprocess(str(doc)) if word not in set(stopwords.words('english'))] for doc in texts]
+        def remove_meaningless(words_list,meaningless_words):
+            return [[word for word in words if word not in meaningless_words] for words in words_list]
+
+        def make_bigrams(texts):
+            return [bigram_mod[doc] for doc in texts]
+
+        def make_trigrams(texts):
+            return [trigram_mod[bigram_mod[doc]] for doc in texts]
+
+        def lemmatization(texts, allowed_postags=['NN', 'JJ', 'VB', 'RB']):
+            texts_out = []
+            for sent in texts:
+                tag  = nltk.pos_tag(sent)
+                texts_out.append([tag_[0] for tag_ in tag if tag_[1] in allowed_postags])
+            return texts_out
+        data_words_nostops = remove_stopwords(all_fieltered_words)
+        st.write(data_words_nostops)
     else:
         st.write('Please choose the topic model above!')
