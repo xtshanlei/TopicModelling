@@ -197,7 +197,7 @@ if uploaded_file:
                 tag  = nltk.pos_tag(sent)
                 texts_out.append([tag_[0] for tag_ in tag if tag_[1] in allowed_postags])
             return texts_out
-        data_words_nostops = remove_stopwords(all_fieltered_words)
+        data_words_nostops = remove_stopwords(all_filtered_words)
         st.write(data_words_nostops)
     else:
         st.write('Please choose the topic model above!')
