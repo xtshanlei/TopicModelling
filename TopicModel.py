@@ -45,7 +45,6 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 st.title("Automatic Topic Modelling v1.0")
 st.write("If ValueError appears, just refresh the page")
-st.write('test')
 uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
 
 if uploaded_file:
@@ -120,61 +119,66 @@ if uploaded_file:
             word_idx = vocab_index[word]
             new_doc.append(word_idx)
         new_corpus.append(new_doc)
+    model_type = st.radio("Please choose the topic model", ('LDA', 'hLDA'))
+    if model_type == 'hLDA':
+        st.subheader("Parameters for hLDA:")
+        n_samples = st.slider('No of iterations for the sampler(Default:100)', 10,200,100)    # no of iterations for the sampler
+        alpha = st.slider('Smoothing over level distributions(Default:10.0)',1.0, 50.0,10.0)         # smoothing over level distributions
+        gamma = st.slider('CRP smoothing parameter; number of imaginary customers at next, as yet unused table(Default:1.0)', 1.0, 10.0, 1.0)           # CRP smoothing parameter; number of imaginary customers at next, as yet unused table
+        eta = st.slider('Smoothing over topic-word distributions(Default:0.1)', 0.1, 5.0, 0.1)             # smoothing over topic-word distributions
+        num_levels = 3        # the number of levels in the tree
+        display_topics = 5   # the number of iterations between printing a brief summary of the topics so far
+        n_words = 5           # the number of most probable words to print for each topic after model estimation
+        with_weights = False  # whether to print the words with the weights
+        topic_model_start = st.button('Press to generate topics...')
+        results_df= pd.DataFrame()
+        if topic_model_start:
+            st.info("If it's a large data,The process may take quite a long time, please be patient...")
+            hlda = HierarchicalLDA(new_corpus, vocab, alpha=alpha, gamma=gamma, eta=eta, num_levels=num_levels)
+            hlda.estimate(n_samples, display_topics=display_topics, n_words=n_words, with_weights=with_weights)
+            st.success('Well done! You did it!')
+            st.balloons()
+            d = 0
+            n =0
+            node = hlda.document_leaves[d]
 
-    st.subheader("Parameters for hLDA:")
-    n_samples = st.slider('No of iterations for the sampler(Default:100)', 10,200,100)    # no of iterations for the sampler
-    alpha = st.slider('Smoothing over level distributions(Default:10.0)',1.0, 50.0,10.0)         # smoothing over level distributions
-    gamma = st.slider('CRP smoothing parameter; number of imaginary customers at next, as yet unused table(Default:1.0)', 1.0, 10.0, 1.0)           # CRP smoothing parameter; number of imaginary customers at next, as yet unused table
-    eta = st.slider('Smoothing over topic-word distributions(Default:0.1)', 0.1, 5.0, 0.1)             # smoothing over topic-word distributions
-    num_levels = 3        # the number of levels in the tree
-    display_topics = 5   # the number of iterations between printing a brief summary of the topics so far
-    n_words = 5           # the number of most probable words to print for each topic after model estimation
-    with_weights = False  # whether to print the words with the weights
-    topic_model_start = st.button('Press to generate topics...')
-    results_df= pd.DataFrame()
-    if topic_model_start:
-        st.info("If it's a large data,The process may take quite a long time, please be patient...")
-        hlda = HierarchicalLDA(new_corpus, vocab, alpha=alpha, gamma=gamma, eta=eta, num_levels=num_levels)
-        hlda.estimate(n_samples, display_topics=display_topics, n_words=n_words, with_weights=with_weights)
-        st.success('Well done! You did it!')
-        st.balloons()
-        d = 0
-        n =0
-        node = hlda.document_leaves[d]
+            #hlda.print_nodes(n_words, with_weights)
 
-        #hlda.print_nodes(n_words, with_weights)
+            def topic_df(model,node, indent, n_words, with_weights):
+                    out = '   ' * indent
+                    out += 'topic=%d level=%d (documents=%d): ' % (node.node_id, node.level, node.customers)
+                    out += node.get_top_words(n_words, with_weights)
+                    print(out, node.total_words)
+                    for child in node.children:
+                        topic_df(model,child, indent+1, n_words, with_weights)
+            def topic_level3(model,node,n_words,with_weights):
+              topic_words = []
+              parent_words = []
+              total_words = []
+              for child in node.children:
+                for i in child.children:
+                  topic_words.append(i.get_top_words(n_words, with_weights))
+                  parent_words.append(i.parent.get_top_words(n_words, with_weights))
+                  total_words.append(i.total_words)
+              return topic_words, parent_words, total_words
+                  #i.total_words, i.get_top_words(n_words, with_weights), i.parent.get_top_words(n_words, with_weights)
 
-        def topic_df(model,node, indent, n_words, with_weights):
-                out = '   ' * indent
-                out += 'topic=%d level=%d (documents=%d): ' % (node.node_id, node.level, node.customers)
-                out += node.get_top_words(n_words, with_weights)
-                print(out, node.total_words)
-                for child in node.children:
-                    topic_df(model,child, indent+1, n_words, with_weights)
-        def topic_level3(model,node,n_words,with_weights):
-          topic_words = []
-          parent_words = []
-          total_words = []
-          for child in node.children:
-            for i in child.children:
-              topic_words.append(i.get_top_words(n_words, with_weights))
-              parent_words.append(i.parent.get_top_words(n_words, with_weights))
-              total_words.append(i.total_words)
-          return topic_words, parent_words, total_words
-              #i.total_words, i.get_top_words(n_words, with_weights), i.parent.get_top_words(n_words, with_weights)
+            topic_words, parent_words, total_words = topic_level3(hlda,hlda.root_node,n_words,with_weights)
 
-        topic_words, parent_words, total_words = topic_level3(hlda,hlda.root_node,n_words,with_weights)
+            results_df = pd.DataFrame({'topic_words':topic_words,
+                               'parent_words':parent_words,
+                               'total_words':total_words,
+                               'grandparents':hlda.root_node.get_top_words(n_words,with_weights)})
+            results_df.to_csv('results.csv')
+            st.subheader("Results:")
+            st.write('You can download the results by clicking the button below!')
+            st.write(results_df)
+            # Examples
 
-        results_df = pd.DataFrame({'topic_words':topic_words,
-                           'parent_words':parent_words,
-                           'total_words':total_words,
-                           'grandparents':hlda.root_node.get_top_words(n_words,with_weights)})
-        results_df.to_csv('results.csv')
-        st.subheader("Results:")
-        st.write('You can download the results by clicking the button below!')
-        st.write(results_df)
-        # Examples
-
-    if not results_df.empty:
-        tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
-        st.markdown(tmp_download_link, unsafe_allow_html=True)
+        if not results_df.empty:
+            tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
+            st.markdown(tmp_download_link, unsafe_allow_html=True)
+    elif model_type = 'LDA':
+        st.write(LDA)
+    else:
+        st.write('Please choose the topic model above!')
