@@ -212,6 +212,8 @@ if uploaded_file:
                 coherence_values.append(coherencemodel.get_coherence())
 
             return model_list, coherence_values
+        st.write(all_filtered_words)
+        id2word = corpora.Dictionary(data_lemmatized)
         limit=50; start=2; step=6;
         id2word = corpora.Dictionary(all_filtered_words)
         model_list, coherence_values = compute_coherence_values(dictionary=id2word,
