@@ -19,6 +19,7 @@ import re
 import glob
 import nltk
 import base64
+import gensim
 import gensim.corpora as corpora
 from gensim.models import CoherenceModel
 #import wget
