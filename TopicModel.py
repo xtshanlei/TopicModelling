@@ -212,7 +212,7 @@ if uploaded_file:
                 coherence_values.append(coherencemodel.get_coherence())
 
             return model_list, coherence_values
-        st.write(all_filtered_words[:5])
+        st.write(new_corpus)
         id2word = corpora.Dictionary(all_filtered_words)
         limit=50; start=2; step=6;
         model_list, coherence_values = compute_coherence_values(dictionary=id2word,
