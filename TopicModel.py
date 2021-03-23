@@ -221,7 +221,7 @@ if uploaded_file:
         start_lda = st.button('Press to compute coherence scores')
         if start_lda:
             st.write('It may take a long time, please wait...')
-            limit=50; start=2; step=6;
+            limit=30; start=2; step=10;
             model_list, coherence_values = compute_coherence_values(dictionary=id2word,
                                                                     corpus=corpus,
                                                                     texts=data_lemmatized,
