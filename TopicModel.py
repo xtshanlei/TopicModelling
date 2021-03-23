@@ -213,11 +213,13 @@ if uploaded_file:
                 coherence_values.append(coherencemodel.get_coherence())
 
             return model_list, coherence_values
-        id2word = set(corpus)
+        id2word = corpora.Dictionary(corpus)
+        data_lemmatized = corpus
+        corpus = [id2word.doc2bow(text) for text in corpus]
         limit=50; start=2; step=6;
         model_list, coherence_values = compute_coherence_values(dictionary=vocab,
                                                                 corpus=new_corpus,
-                                                                texts=all_filtered_words,
+                                                                texts=corpus,
                                                                 start = start,
                                                                 limit= limit,
                                                                 step=step)
