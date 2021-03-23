@@ -217,9 +217,9 @@ if uploaded_file:
         data_lemmatized = corpus
         corpus = [id2word.doc2bow(text) for text in corpus]
         limit=50; start=2; step=6;
-        model_list, coherence_values = compute_coherence_values(dictionary=vocab,
-                                                                corpus=new_corpus,
-                                                                texts=corpus,
+        model_list, coherence_values = compute_coherence_values(dictionary=id2word,
+                                                                corpus=corpus,
+                                                                texts=data_lemmatized,
                                                                 start = start,
                                                                 limit= limit,
                                                                 step=step)
