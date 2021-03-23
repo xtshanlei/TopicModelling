@@ -213,23 +213,27 @@ if uploaded_file:
                 coherence_values.append(coherencemodel.get_coherence())
 
             return model_list, coherence_values
+        st.write('Processing....')
         id2word = corpora.Dictionary(corpus)
         data_lemmatized = corpus
         corpus = [id2word.doc2bow(text) for text in corpus]
-        limit=50; start=2; step=6;
-        model_list, coherence_values = compute_coherence_values(dictionary=id2word,
-                                                                corpus=corpus,
-                                                                texts=data_lemmatized,
-                                                                start = start,
-                                                                limit= limit,
-                                                                step=step)
+        st.write('Processed!')
+        start_lda = st.button('Press to compute coherence scores')
+        if start_lda:
+            st.write('It may take a long time, please wait...')
+            limit=50; start=2; step=6;
+            model_list, coherence_values = compute_coherence_values(dictionary=id2word,
+                                                                    corpus=corpus,
+                                                                    texts=data_lemmatized,
+                                                                    start = start,
+                                                                    limit= limit,
+                                                                    step=step)
 
-
-        x = range(start, limit, step)
-        plt.plot(x, coherence_values)
-        plt.xlabel("Num Topics")
-        plt.ylabel("Coherence score")
-        plt.legend(("coherence_values"), loc='best')
-        st.pyplot(plt)
+            x = range(start, limit, step)
+            plt.plot(x, coherence_values)
+            plt.xlabel("Num Topics")
+            plt.ylabel("Coherence score")
+            plt.legend(("coherence_values"), loc='best')
+            st.pyplot(plt)
     else:
         st.write('Please choose the topic model above!')
