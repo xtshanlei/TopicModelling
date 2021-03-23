@@ -218,10 +218,10 @@ if uploaded_file:
         data_lemmatized = corpus
         corpus = [id2word.doc2bow(text) for text in corpus]
         st.write('Processed!')
-        start_lda = st.button('Press to compute coherence scores')
+        start_lda = st.button('STEP 1:Press to compute coherence scores')
         if start_lda:
             st.write('It may take a long time, please wait...')
-            limit=30; start=2; step=10;
+            limit=20; start=2; step=5;
             model_list, coherence_values = compute_coherence_values(dictionary=id2word,
                                                                     corpus=corpus,
                                                                     texts=data_lemmatized,
@@ -235,5 +235,6 @@ if uploaded_file:
             plt.ylabel("Coherence score")
             plt.legend(("coherence_values"), loc='best')
             st.pyplot(plt)
+
     else:
         st.write('Please choose the topic model above!')
