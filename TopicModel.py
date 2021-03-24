@@ -50,8 +50,8 @@ def download_link(object_to_download, download_filename, download_link_text):
     href = href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 ################UPDATE NOTES#############################################
-st.sidebar.title("Automatic Topic Modelling v2.0")
-st.sidebar.subtitle('v2.0 Update Notes')
+st.sidebar.title("AutoTopic v2.0")
+st.sidebar.subheader('v2.0 Update Notes')
 st.sidebar.write('- Add the support for LDA model')
 
 #####################################################################
