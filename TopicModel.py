@@ -222,7 +222,7 @@ if uploaded_file:
         step=st.slider('Steps', 1, 5, value =5, step=1)
         start=topic_range[0]
 
-        start_lda = st.button('STEP 1:Press to compute coherence scores')
+        start_coherence = st.button('STEP 1:Press to compute coherence scores')
         if start_lda:
             st.write('It may take a long time, please wait...')
 
@@ -238,6 +238,9 @@ if uploaded_file:
             st.line_chart(chart_data)
             for m, cv in zip(x, coherence_values):
                 st.write("Num Topics =", m, " has Coherence Value of", round(cv, 4))
+            model_index = coherence_values.index(max(coherence_values))
+            best_model = model_list[model_index]
+            st.write('The {} is selected'.format(x[model_index]))
 
 
 
