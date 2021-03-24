@@ -186,6 +186,7 @@ if uploaded_file:
             tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
             st.markdown(tmp_download_link, unsafe_allow_html=True)
     elif model_type == 'LDA': #LDA模型
+        @st.cache
         def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
             """
             Compute c_v coherence for various number of topics
@@ -246,7 +247,7 @@ if uploaded_file:
             st.write('The {} is selected'.format(x[model_index]))
             vis = pyLDAvis.gensim.prepare(best_model, corpus, id2word)
             pyLDAvis.save_html(vis, 'optimal_model.html')
-            components.iframe('optimal_model.html')
+            components.iframe('/optimal_model.html')
 
 
     else:
