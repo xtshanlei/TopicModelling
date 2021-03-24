@@ -49,8 +49,12 @@ def download_link(object_to_download, download_filename, download_link_text):
     b64 = base64.b64encode(object_to_download.encode()).decode()
     href = href = f'<a href="data:file/csv;base64,{b64}">Download csv file</a>'
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
-st.title("Automatic Topic Modelling v1.0")
-st.write("If ValueError appears, just refresh the page")
+################UPDATE NOTES#############################################
+st.sidebar.title("Automatic Topic Modelling v2.0")
+st.sidebar.subtitle('v2.0 Update Notes')
+st.sidebar.write('- Add the support for LDA model')
+
+#####################################################################
 uploaded_file = st.file_uploader("Choose a file", type=['.csv'])
 
 if uploaded_file:
@@ -126,7 +130,7 @@ if uploaded_file:
             new_doc.append(word_idx)
         new_corpus.append(new_doc)
     st.subheader('Topic Modelling')
-    model_type = st.radio("Please choose the topic model", ('LDA', 'hLDA'))
+    model_type = st.radio("Please choose the topic model", ('LDA - Latent Dirichlet Allocation', 'hLDA - hierarchical LDA'))
     if model_type == 'hLDA': #HLDA模型
         st.subheader("Parameters for hLDA:")
         n_samples = st.slider('No of iterations for the sampler(Default:100)', 10,200,100)    # no of iterations for the sampler
@@ -226,7 +230,7 @@ if uploaded_file:
         step=st.slider('Steps', 1, 5, value =5, step=1)
         start=topic_range[0]
 
-        start_coherence = st.button('STEP 1:Press to compute coherence scores')
+        start_coherence = st.button('Press to start LDA automatically..')
         if start_coherence:
             st.write('It may take a long time, please wait...')
 
