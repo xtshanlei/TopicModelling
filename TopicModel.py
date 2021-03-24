@@ -191,7 +191,6 @@ if uploaded_file:
             tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
             st.markdown(tmp_download_link, unsafe_allow_html=True)
     elif model_type == 'LDA - Latent Dirichlet Allocation': #LDA模型
-        @st.cache
         def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
             """
             Compute c_v coherence for various number of topics
@@ -233,7 +232,7 @@ if uploaded_file:
 
         start_coherence = st.button('Press to start LDA automatically..')
         if start_coherence:
-            st.write('It may take a long time, please wait...')
+            st.info('It may take a long time, please wait...')
 
             model_list, coherence_values = compute_coherence_values(dictionary=id2word,
                                                                     corpus=corpus,
