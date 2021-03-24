@@ -213,15 +213,18 @@ if uploaded_file:
                 coherence_values.append(coherencemodel.get_coherence())
 
             return model_list, coherence_values
-        st.write('Processing....')
         id2word = corpora.Dictionary(corpus)
         data_lemmatized = corpus
         corpus = [id2word.doc2bow(text) for text in corpus]
-        st.write('Processed!')
+        st.subheader('Please choose the parameter for coherence score below...')
+        limit=st.slider('Maximum number of topics', 10, 50, 5)
+        step=st.slider('Steps', 1, 5, 1)
+        start=2
+        
         start_lda = st.button('STEP 1:Press to compute coherence scores')
         if start_lda:
             st.write('It may take a long time, please wait...')
-            limit=20; start=2; step=5;
+
             model_list, coherence_values = compute_coherence_values(dictionary=id2word,
                                                                     corpus=corpus,
                                                                     texts=data_lemmatized,
