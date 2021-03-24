@@ -218,7 +218,6 @@ if uploaded_file:
         corpus = [id2word.doc2bow(text) for text in corpus]
         st.subheader('Please choose the parameter for coherence score below...')
         topic_range = st.slider('Select a range of the topic number:', 2,100, (2,20))
-        st.write(topic_range)
         limit=topic_range[1]
         step=st.slider('Steps', 1, 5, step=1)
         start=topic_range[0]
