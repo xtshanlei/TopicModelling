@@ -124,7 +124,7 @@ if uploaded_file:
         new_corpus.append(new_doc)
     st.subheader('Topic Modelling')
     model_type = st.radio("Please choose the topic model", ('LDA', 'hLDA'))
-    if model_type == 'hLDA':
+    if model_type == 'hLDA': #HLDA模型
         st.subheader("Parameters for hLDA:")
         n_samples = st.slider('No of iterations for the sampler(Default:100)', 10,200,100)    # no of iterations for the sampler
         alpha = st.slider('Smoothing over level distributions(Default:10.0)',1.0, 50.0,10.0)         # smoothing over level distributions
@@ -182,7 +182,7 @@ if uploaded_file:
         if not results_df.empty:
             tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
             st.markdown(tmp_download_link, unsafe_allow_html=True)
-    elif model_type == 'LDA':
+    elif model_type == 'LDA': #LDA模型
         def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
             """
             Compute c_v coherence for various number of topics
@@ -202,7 +202,7 @@ if uploaded_file:
             coherence_values = []
             model_list = []
             for num_topics in range(start, limit, step):
-                model = gensim.models.LdaMulticore(corpus=corpus,
+                model = gensim.models.LdaModel(corpus=corpus,
                                                    num_topics=num_topics,
                                                    id2word=id2word)
                 model_list.append(model)
