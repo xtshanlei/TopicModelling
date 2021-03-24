@@ -223,7 +223,7 @@ if uploaded_file:
         start=topic_range[0]
 
         start_coherence = st.button('STEP 1:Press to compute coherence scores')
-        if start_lda:
+        if start_coherence:
             st.write('It may take a long time, please wait...')
 
             model_list, coherence_values = compute_coherence_values(dictionary=id2word,
