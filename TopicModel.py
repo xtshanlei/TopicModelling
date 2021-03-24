@@ -230,11 +230,11 @@ if uploaded_file:
                                                                     step=step)
 
             x = range(start, limit, step)
-            plt.plot(x, coherence_values)
-            plt.xlabel("Num Topics")
-            plt.ylabel("Coherence score")
-            plt.legend(("coherence_values"), loc='best')
-            st.pyplot(plt)
+            plt_co.plot(x, coherence_values)
+            plt_co.xlabel("Num Topics")
+            plt_co.ylabel("Coherence score")
+            plt_co.legend(("coherence_values"), loc='best')
+            st.pyplot(plt_co)
 
     else:
         st.write('Please choose the topic model above!')
