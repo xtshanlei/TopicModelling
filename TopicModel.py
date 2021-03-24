@@ -51,6 +51,7 @@ def download_link(object_to_download, download_filename, download_link_text):
     return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
 ################UPDATE NOTES#############################################
 st.sidebar.title("AutoTopic v2.0")
+st.sidebar.write('by Yulei')
 st.sidebar.subheader('v2.0 Update Notes')
 st.sidebar.write('- Add the support for LDA model')
 
@@ -131,7 +132,7 @@ if uploaded_file:
         new_corpus.append(new_doc)
     st.subheader('Topic Modelling')
     model_type = st.radio("Please choose the topic model", ('LDA - Latent Dirichlet Allocation', 'hLDA - hierarchical LDA'))
-    if model_type == 'hLDA': #HLDA模型
+    if model_type == 'hLDA - hierarchical LDA': #HLDA模型
         st.subheader("Parameters for hLDA:")
         n_samples = st.slider('No of iterations for the sampler(Default:100)', 10,200,100)    # no of iterations for the sampler
         alpha = st.slider('Smoothing over level distributions(Default:10.0)',1.0, 50.0,10.0)         # smoothing over level distributions
@@ -189,7 +190,7 @@ if uploaded_file:
         if not results_df.empty:
             tmp_download_link = download_link(results_df, 'h_topics.csv', 'Click here to download your data!')
             st.markdown(tmp_download_link, unsafe_allow_html=True)
-    elif model_type == 'LDA': #LDA模型
+    elif model_type == 'LDA - Latent Dirichlet Allocation': #LDA模型
         @st.cache
         def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
             """
