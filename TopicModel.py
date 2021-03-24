@@ -230,11 +230,16 @@ if uploaded_file:
                                                                     step=step)
 
             x = range(start, limit, step)
-            plt_co.plot(x, coherence_values)
+            chart_data = pd.DataFrame(coherence_values, columns=[x])
+            st.line_chart(chart_data)
+            for m, cv in zip(x, coherence_values):
+                st.write("Num Topics =", m, " has Coherence Value of", round(cv, 4))
+
+            '''plt_co.plot(x, coherence_values)
             plt_co.xlabel("Num Topics")
             plt_co.ylabel("Coherence score")
             plt_co.legend(("coherence_values"), loc='best')
-            st.pyplot(plt_co)
+            st.line_chart(plt_co)'''
 
     else:
         st.write('Please choose the topic model above!')
