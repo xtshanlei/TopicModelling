@@ -256,6 +256,7 @@ if uploaded_file:
             st.subheader('Visualisation of Topics:')
             components.html(source_code, height = 1080, width=1920)
             lda_visualisation.close()
+            st.write(best_model.print_topics(num_words=5))
 
 
     else:
