@@ -249,7 +249,7 @@ if uploaded_file:
             pyLDAvis.save_html(vis, 'optimal_model.html')
             lda_visualisation = open('optimal_model.html', 'r', encoding ='utf-8')
             source_code = lda_visualisation.read()
-            components.html(source_code)
+            components.html(source_code, height = 1080, width=1920)
 
 
     else:
