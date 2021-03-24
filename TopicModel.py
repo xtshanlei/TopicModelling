@@ -217,10 +217,12 @@ if uploaded_file:
         data_lemmatized = corpus
         corpus = [id2word.doc2bow(text) for text in corpus]
         st.subheader('Please choose the parameter for coherence score below...')
-        limit=st.slider('Maximum number of topics', 10, 50, 5)
+        topic_range = st.slider('Select a range of the topic number:', 2,100, (2,20))
+        st.write(topic_range)
+        limit=50
         step=st.slider('Steps', 1, 5, 1)
         start=2
-        
+
         start_lda = st.button('STEP 1:Press to compute coherence scores')
         if start_lda:
             st.write('It may take a long time, please wait...')
