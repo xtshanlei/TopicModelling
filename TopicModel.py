@@ -247,9 +247,9 @@ if uploaded_file:
             st.write('The {} is selected'.format(x[model_index]))
             vis = pyLDAvis.gensim.prepare(best_model, corpus, id2word)
             pyLDAvis.save_html(vis, 'optimal_model.html')
-            with open('optimal_model.html','r') as f:
-                lda_download_link = download_link(f, 'optimal_model.html', 'Click here to download your visualisation!')
-                st.markdown(lda_download_link, unsafe_allow_html=True)
+            lda_visualisation = open('optimal_model.html', 'r', encoding ='utf-8')
+            source_code = lda_visualisation.read()
+            components.html(source_code)
 
 
     else:
