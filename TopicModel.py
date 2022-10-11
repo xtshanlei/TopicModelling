@@ -11,7 +11,7 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from wordcloud import WordCloud
 from hlda.sampler import HierarchicalLDA
-from ipywidgets import widgets
+
 from IPython.core.display import HTML, display
 import pandas as pd
 import string
