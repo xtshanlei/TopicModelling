@@ -68,10 +68,10 @@ if uploaded_file:
         columns_selected = st.multiselect('Which columns do you want to merge?',df.columns)
         df['texts'] = df[columns_selected].agg(' '.join, axis=1)
         st.write(df['texts'])
-        comments = df['texts']
+        comments = df['texts'].astype(str)
     else:
         text_column = st.selectbox('Please choose the column name of the texts:',df.columns)
-        comments = df[text_column]
+        comments = df[text_column].astype(str)
     ExStopWords = st.text_input("Any extra words to be removed? Split using space. e.g. good nice")
     ExStopWords_l = ExStopWords.split()
     stopset = stopwords.words('english') + ExStopWords_l
