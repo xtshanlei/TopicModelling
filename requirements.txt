@@ -8,3 +8,4 @@ streamlit == 0.79.0
 pyLDAvis == 3.2.2
 ipython
 ipywidgets
+ipykernel
